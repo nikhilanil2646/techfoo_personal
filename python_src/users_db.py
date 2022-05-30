@@ -25,8 +25,11 @@ def check_credentials(user_data):
 
 def get_user(email, password):
     user_data= {"email":email, "password":password}
-    user=check_credentials(user_data)
-    del user["Password"]
+    try:
+        user=check_credentials(user_data)
+        del user["Password"]
+    except:
+        return False
     if not user:
         return False
     return user
