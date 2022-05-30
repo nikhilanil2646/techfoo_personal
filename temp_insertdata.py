@@ -97,3 +97,4 @@ get_users("select f.Id,f.Name as FoodName,f.UnitPrice,f.IsActive,f.CreatedDate,f
 get_users("select f.Id,f.Name as FoodName,f.UnitPrice,f.IsActive,f.CreatedDate,f.ModifiedDate,f.CreatedBy,f.ModifiedBY,f.CategoryId,c.Name as CategoryName from Food as f inner join Category as c on c.Id=f.CategoryId where f.Id=4")
 get_users("select o.Id as OrderId,o.OrderDateTime,o.TotalAmt,o.status as StatusId,os.Status,o.UserId from orders o left join orderStatus os on os.id=o.status where o.UserId=4")
 get_users("Select OD.Id as OrderDetailId, OD.Quantity as qty, OD.Price, OD.OrderId, OD.FoodId, F.UnitPrice as AmountPerUnit,F.Name,F.Description From OrderDetails OD left join Food F on F.id=OD.FoodId Where OrderID=1")
+get_users("Select OD.Id as OrderDetailId, OD.Quantity as qty, OD.Price, OD.OrderId, OD.FoodId, F.UnitPrice as AmountPerUnit,F.Name,F.Description From OrderDetails OD left join Food F on F.id=OD.FoodId")

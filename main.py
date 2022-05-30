@@ -75,6 +75,14 @@ def insert_food():
         return jsonify({'text':'Failed'})
     return jsonify({'text':'Data inserted'})
 
+@app.route('/api/getallorders', methods = ['GET'])
+def get_all_orders():
+    allorders=get_all_order_from_db()
+    if allorders==False:
+        return jsonify({'text':'No data found ....'})
+    print("Returning. ....",allorders )
+    return jsonify(allorders)
+
 
 if __name__ == '__main__':
    app.run(port=5002)
