@@ -38,9 +38,21 @@ def fetch_one_data(command):
     except:
         print("Error in fetching data from db....")
 
+def insert_data(cmd):
+  
+        conn = sqlite3.connect('users.db')
+        print(cmd)
+        conn.execute(cmd)
+        conn.commit()
+    
+        
+        return True
 
 def get_food_by_id_from_db(food_id):
     command = f"select f.Id,f.Name as FoodName,f.UnitPrice,f.IsActive,f.CreatedDate,f.ModifiedDate,f.CreatedBy,f.ModifiedBY,f.CategoryId,f.ImageURL,c.Name as CategoryName from Food as f inner join Category as c on c.Id=f.CategoryId where f.Id={food_id}"
     db_food=fetch_one_data(command)
     return db_food
 
+def insert_food_in_db(food):
+    command = f'''insert into Food(Name,Description,UnitPrice,IsActive,CreatedDate,ModifiedDate,CreatedBy,ModifiedBY,CategoryId,ImageURL) values('{food["Name"]}','{food["Description"]}',{food["UnitPrice"]},{food["IsActive"]},'{food["CreatedDate"]}','{food["ModifiedDate"]}',{food["CreatedBy"]},{food["ModifiedBY"]},{food["CategoryId"]},'{food["ImageURL"]}');'''
+    return insert_data(command)

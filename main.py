@@ -56,6 +56,25 @@ def get_order_details_by_orderid(order_id):
     print("Returning. ....",orderdetails )
     return jsonify(orderdetails)
 
+@app.route('/api/insertfood', methods = ['POST'])
+def insert_food():
+    food = {}
+    food['Name'] = request.json.get('Name')
+    food['Description'] = request.json.get("Description")
+    food['UnitPrice'] = request.json.get("UnitPrice")
+    food['IsActive'] = request.json.get("IsActive")
+    food['CreatedDate'] = request.json.get("CreatedDate")
+    food['ModifiedDate'] = request.json.get("ModifiedDate")
+    food['CreatedBy'] = request.json.get("CreatedBy")
+    food['ModifiedBY'] = request.json.get("ModifiedBY")
+    food['CategoryId'] = request.json.get("CategoryId")
+    food['ImageURL'] = request.json.get("ImageURL")
+    response = insert_food_in_db(food)
+    
+    if response==False:
+        return jsonify({'text':'Failed'})
+    return jsonify({'text':'Data inserted'})
+
 
 if __name__ == '__main__':
    app.run(port=5002)
