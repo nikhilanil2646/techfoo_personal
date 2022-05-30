@@ -1,5 +1,7 @@
 import sqlite3
 
+from python_src.food_db import insert_data
+
 def fetch_all_data(command):
     conn = sqlite3.connect('users.db')
     data_object = conn.execute(command)
@@ -15,6 +17,14 @@ def fetch_all_data(command):
         return dict_data
     except:
         print("Error in fetching data from db....")
+
+
+def insert_data(cmd):
+        conn = sqlite3.connect('users.db')
+        print(cmd)
+        conn.execute(cmd)
+        conn.commit()
+        return True
 
 
 def fetch_one_data(command):
@@ -46,3 +56,26 @@ def get_all_order_from_db():
     cmd = ("Select OD.Id as OrderDetailId, OD.Quantity as qty, OD.Price, OD.OrderId, OD.FoodId, F.UnitPrice as AmountPerUnit,F.Name,F.Description From OrderDetails OD left join Food F on F.id=OD.FoodId")
     db_orders=fetch_all_data(cmd)
     return db_orders
+
+def update_order_status_in_db(status, orderid):
+    cmd = (f"Update orders set status={status} where Id={orderid}")
+    db_orders=insert_data(cmd)
+    return db_orders
+
+def create_order_in_db(order_details):
+    cmd = f'''insert into Orders(OrderDateTime,TotalAmt,Status,UserId) values('{order_details["OrderDateTime"]}',{order_details["TotalAmt"]},{order_details["Status"]},{order_details["UserId"]});'''
+    conn = sqlite3.connect('users.db')
+    cursor=conn.cursor()
+    cursor.execute(cmd)
+    conn.commit()
+    cursor = cursor.execute('SELECT max(Id) FROM Orders')
+    order_id = cursor.fetchone()[0]
+    #order_id = conn.lastrowid
+    print("-------------->>>>>>>>>>Order id",order_id)
+    for order in order_details["orderDetails"]:
+        cmd = f'''insert into OrderDetails(Quantity,Price,OrderId,FoodId) values({order["Quantity"]},{order["Price"]},{order_id},{order["FoodId"]});'''
+        cursor.execute(cmd)
+        conn.commit()
+    return True
+
+

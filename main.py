@@ -1,3 +1,4 @@
+from urllib import response
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from flask_restful import Resource, Api
@@ -82,6 +83,28 @@ def get_all_orders():
         return jsonify({'text':'No data found ....'})
     print("Returning. ....",allorders )
     return jsonify(allorders)
+
+@app.route('/api/updateorderstatus', methods = ['POST'])
+def update_order_status():
+    status = request.json.get("status")
+    orderid = request.json.get("orderid")
+    response = update_order_status_in_db(status, orderid)
+    if response==False:
+        return jsonify({'text':'Failed'})
+    return jsonify({'text':'Status Updated'})
+
+@app.route('/api/placeorder', methods = ['POST'])
+def place_order():
+    orderdetail = {}
+    orderdetail["OrderDateTime"] = request.json.get("OrderDateTime")
+    orderdetail["TotalAmt"] = request.json.get("TotalAmt")
+    orderdetail["Status"] = request.json.get("Status")
+    orderdetail["UserId"] = request.json.get("UserId")
+    orderdetail["orderDetails"] = request.json.get("orderDetails")
+    response = create_order_in_db(orderdetail)
+    if response==False:
+        return jsonify({'text':'Failed'})
+    return jsonify({'text':'Order placed...'})
 
 
 if __name__ == '__main__':
