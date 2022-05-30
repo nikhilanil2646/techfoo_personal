@@ -44,7 +44,10 @@ conn.commit()
             
 
 
-conn.execute("CREATE TABLE Food (Id int identity(1,1) primary key,Name varchar(30),Description varchar(100),UnitPrice int,IsActive bit,CreatedDate date,ModifiedDate date,CreatedBy int,FOREIGN KEY (CreatedBy) REFERENCES Users(Id),ModifiedBY int,FOREIGN KEY (ModifiedBY) REFERENCES Users(Id)")
+conn.execute("CREATE TABLE UserRole (Id INTEGER primary key AUTOINCREMENT,UserId INTEGER, RoleId INTEGER, FOREIGN KEY(UserId) REFERENCES Users (Id), FOREIGN KEY(RoleId) REFERENCES Role (Id));")
+conn.commit()
+
+conn.execute("CREATE TABLE Food (Id INTEGER primary key AUTOINCREMENT,Name varchar(30),Description varchar(100),UnitPrice INTEGER,IsActive bit,CreatedDate date,ModifiedDate date,CreatedBy INTEGER,ModifiedBY INTEGER,FOREIGN KEY (CreatedBy) REFERENCES Users(Id),FOREIGN KEY (ModifiedBY) REFERENCES Users(Id))")
 conn.commit()
 	
 
