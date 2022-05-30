@@ -37,3 +37,7 @@ def get_all_orders_by_userid_from_db(user_id):
     db_orders=fetch_all_data(command)
     return db_orders
 
+def get_order_details_by_orderid_from_db(order_id):
+    command = f"Select OD.Id as OrderDetailId, OD.Quantity as qty, OD.Price, OD.OrderId, OD.FoodId, F.UnitPrice as AmountPerUnit,F.Name,F.Description From OrderDetails OD left join Food F on F.id=OD.FoodId Where OrderID={order_id}"
+    db_orders=fetch_all_data(command)
+    return db_orders

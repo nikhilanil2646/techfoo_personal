@@ -48,6 +48,14 @@ def get_all_orders_by_userid(user_id):
     print("Returning. ....",orderhistory )
     return jsonify(orderhistory)
 
+@app.route('/api/getorderdetailsbyorderrid/<order_id>', methods = ['GET'])
+def get_order_details_by_orderid(order_id):
+    orderdetails=get_order_details_by_orderid_from_db(order_id)
+    if orderdetails==False:
+        return jsonify({'text':'No data found ....'})
+    print("Returning. ....",orderdetails )
+    return jsonify(orderdetails)
+
 
 if __name__ == '__main__':
    app.run(port=5002)
